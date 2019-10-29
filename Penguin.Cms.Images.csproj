@@ -8,8 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
-    <PackageReference Include="Penguin.Web.Data" Version="2.0.0-T9LXGUJ" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.3-T9LXGUJ" />
-    <PackageReference Include="Penguin.Images" Version="2.0.1-T9LXGUJ" />
+    <PackageReference Include="Penguin.Web.Data" Version="2.0.1-T9M1HHH" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M1HHH" />
+    <PackageReference Include="Penguin.Images" Version="2.0.2-T9M1HHH" />
   </ItemGroup>
 </Project>
