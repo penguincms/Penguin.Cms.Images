@@ -7,6 +7,7 @@
     <Description>Not Available</Description>
     <AssemblyName>Penguin.Cms.Images</AssemblyName>
     <RootNamespace>Penguin.Cms.Images</RootNamespace>
+    <DocumentationFile>Penguin.Cms.Images.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
