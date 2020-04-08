@@ -120,7 +120,7 @@ namespace Penguin.Cms.Images
                     if (flip != RotateFlipType.RotateNoneFlipNone)
                     {
                         bmp.RotateFlip(flip);
-                        exif.SetTag(0x112, "1");
+                        //exif.SetTag(0x112, "1");
                     }
                 }
 
