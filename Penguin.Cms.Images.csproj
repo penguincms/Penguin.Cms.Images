@@ -11,8 +11,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    <PackageReference Include="Penguin.Images" Version="5.0.0" />
-    <PackageReference Include="Penguin.Web.Data" Version="5.0.0" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.0" />
+    <PackageReference Include="Penguin.Images" Version="2.0.2-T9ZCSSJ" />
+    <PackageReference Include="Penguin.Web.Data" Version="5.0.1-T9ZCSSJ" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-T9ZCSSJ" />
   </ItemGroup>
 </Project>
