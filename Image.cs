@@ -20,7 +20,6 @@ using Drawing = System.Drawing;
 namespace Penguin.Cms.Images
 {
     [Table("Images")]
-    [SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters")]
     [SuppressMessage("Design", "CA1031:Do not catch general exception types")]
     [SuppressMessage("Usage", "CA2227:Collection properties should be read only")]
     public partial class Image : AuditableEntity
