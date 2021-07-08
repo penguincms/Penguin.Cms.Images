@@ -8,7 +8,6 @@ namespace Penguin.Cms.Images
 {
     public class ImageData : KeyedObject
     {
-        [SuppressMessage("Performance", "CA1819:Properties should not return arrays")]
         public byte[] Data { get; set; } = System.Array.Empty<byte>();
 
         public int Height { get; set; }

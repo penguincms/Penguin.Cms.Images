@@ -20,8 +20,8 @@ using Drawing = System.Drawing;
 namespace Penguin.Cms.Images
 {
     [Table("Images")]
-    [SuppressMessage("Design", "CA1031:Do not catch general exception types")]
-    [SuppressMessage("Usage", "CA2227:Collection properties should be read only")]
+    
+    
     public partial class Image : AuditableEntity
     {
         [DontAllow(DisplayContexts.Any)]
@@ -73,7 +73,7 @@ namespace Penguin.Cms.Images
 
         [NotMapped]
         [DontAllow(DisplayContexts.List | DisplayContexts.Edit)]
-        [SuppressMessage("Design", "CA1056:Uri properties should not be strings")]
+        
         public string Uri
         {
             get => this.ExternalId;
