@@ -1,6 +1,5 @@
 ﻿using Penguin.Images.Extensions;
 using Penguin.Persistence.Abstractions;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 

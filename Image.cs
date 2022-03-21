@@ -7,7 +7,6 @@ using Penguin.Web.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -20,8 +19,8 @@ using Drawing = System.Drawing;
 namespace Penguin.Cms.Images
 {
     [Table("Images")]
-    
-    
+
+
     public partial class Image : AuditableEntity
     {
         [DontAllow(DisplayContexts.Any)]
@@ -73,7 +72,7 @@ namespace Penguin.Cms.Images
 
         [NotMapped]
         [DontAllow(DisplayContexts.List | DisplayContexts.Edit)]
-        
+
         public string Uri
         {
             get => this.ExternalId;
