@@ -1,4 +1,4 @@
-﻿using Penguin.Cms.Entities;
+using Penguin.Cms.Entities;
 using Penguin.Images.Extensions;
 using Penguin.Images.Objects;
 using Penguin.Persistence.Abstractions.Attributes.Control;
@@ -19,7 +19,6 @@ using Drawing = System.Drawing;
 namespace Penguin.Cms.Images
 {
     [Table("Images")]
-
 
     public partial class Image : AuditableEntity
     {
