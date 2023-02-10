@@ -19,7 +19,6 @@ using Drawing = System.Drawing;
 namespace Penguin.Cms.Images
 {
     [Table("Images")]
-
     public partial class Image : AuditableEntity
     {
         [DontAllow(DisplayContexts.Any)]
@@ -71,7 +70,6 @@ namespace Penguin.Cms.Images
 
         [NotMapped]
         [DontAllow(DisplayContexts.List | DisplayContexts.Edit)]
-
         public string Uri
         {
             get => ExternalId;
@@ -178,7 +176,7 @@ namespace Penguin.Cms.Images
             {
                 return RotateFlipType.RotateNoneFlipNone;
             }
-            int o = int.Parse(orientation.Substring(0, 1), CultureInfo.CurrentCulture);
+            int o = int.Parse(orientation[..1], CultureInfo.CurrentCulture);
 
             return o switch
             {
