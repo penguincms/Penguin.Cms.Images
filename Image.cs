@@ -56,8 +56,8 @@ namespace Penguin.Cms.Images
         [DontAllow(DisplayContexts.List)]
         public List<string> Tags
         {
-            get => this.TagString == null ? new List<string>() : this.TagString.Split(',').ToList();
-            set => this.TagString = string.Join(",", value);
+            get => TagString == null ? new List<string>() : TagString.Split(',').ToList();
+            set => TagString = string.Join(",", value);
         }
 
         [DontAllow(DisplayContexts.Edit)]
@@ -74,8 +74,8 @@ namespace Penguin.Cms.Images
 
         public string Uri
         {
-            get => this.ExternalId;
-            set => this.ExternalId = value;
+            get => ExternalId;
+            set => ExternalId = value;
         }
 
         [Mapped]
@@ -87,27 +87,27 @@ namespace Penguin.Cms.Images
 
         public Image(string source)
         {
-            this.Uri = source;
-            this.IsVisible = true;
-            this.FileName = Path.GetFileName(this.Uri);
+            Uri = source;
+            IsVisible = true;
+            FileName = Path.GetFileName(Uri);
         }
 
         public Image(byte[] array, string fileName)
         {
-            this.Full = new ImageData(array, MimeMappings.GetMimeType(Path.GetExtension(fileName)));
-            this.FileName = fileName;
+            Full = new ImageData(array, MimeMappings.GetMimeType(Path.GetExtension(fileName)));
+            FileName = fileName;
         }
 
         public void Refresh()
         {
-            bool FromDisk = File.Exists(this.Uri);
+            bool FromDisk = File.Exists(Uri);
             Bitmap bmp;
 
             if (FromDisk)
             {
-                this.DateTaken = GetDateTakenFromImage(this.Uri);
-                bmp = new Bitmap(this.Uri);
-                EXIFextractor exif = new EXIFextractor(ref bmp, "n"); // get source from http://www.codeproject.com/KB/graphics/exifextractor.aspx?fid=207371
+                DateTaken = GetDateTakenFromImage(Uri);
+                bmp = new Bitmap(Uri);
+                EXIFextractor exif = new(ref bmp, "n"); // get source from http://www.codeproject.com/KB/graphics/exifextractor.aspx?fid=207371
 
                 if (exif["Orientation"] != null)
                 {
@@ -121,55 +121,49 @@ namespace Penguin.Cms.Images
                     }
                 }
 
-                this.Full = new ImageData(bmp, MimeMappings.GetMimeType(Path.GetExtension(this.Uri)));
-                this.FullWidth = this.Full.Width;
-                this.FullHeight = this.Full.Height;
+                Full = new ImageData(bmp, MimeMappings.GetMimeType(Path.GetExtension(Uri)));
+                FullWidth = Full.Width;
+                FullHeight = Full.Height;
             }
             else
             {
-                if (this.Full is null)
+                if (Full is null)
                 {
                     throw new NullReferenceException("File not saved on disk, but no image data exists within the object");
                 }
-                using (MemoryStream ms = new MemoryStream(this.Full.Data))
-                {
-                    bmp = new Bitmap(ms);
-                }
+                using MemoryStream ms = new(Full.Data);
+                bmp = new Bitmap(ms);
             }
 
-            this.Content = new ImageData(bmp.ScaleImage(1080), MimeMappings.GetMimeType(Path.GetExtension(this.Uri)));
-            this.ContentWidth = this.Content.Width;
-            this.ContentHeight = this.Content.Height;
+            Content = new ImageData(bmp.ScaleImage(1080), MimeMappings.GetMimeType(Path.GetExtension(Uri)));
+            ContentWidth = Content.Width;
+            ContentHeight = Content.Height;
 
-            this.Thumb = new ImageData(bmp.ScaleImage(200), MimeMappings.GetMimeType(Path.GetExtension(this.Uri)));
-            this.ThumbWidth = this.Thumb.Width;
-            this.ThumbHeight = this.Thumb.Height;
+            Thumb = new ImageData(bmp.ScaleImage(200), MimeMappings.GetMimeType(Path.GetExtension(Uri)));
+            ThumbWidth = Thumb.Width;
+            ThumbHeight = Thumb.Height;
 
-            this.Name = !string.IsNullOrEmpty(this.Name) ? this.Name : Path.GetFileNameWithoutExtension(this.FileName);
+            Name = !string.IsNullOrEmpty(Name) ? Name : Path.GetFileNameWithoutExtension(FileName);
 
             bmp.Dispose();
         }
 
         private static DateTime? GetDateTakenFromImage(string path)
         {
-            System.Text.RegularExpressions.Regex r = new System.Text.RegularExpressions.Regex(":");
+            System.Text.RegularExpressions.Regex r = new(":");
             try
             {
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using FileStream fs = new(path, FileMode.Open, FileAccess.Read);
+                using Drawing.Image myImage = Drawing.Image.FromStream(fs, false, false);
+                try
                 {
-                    using (Drawing.Image myImage = Drawing.Image.FromStream(fs, false, false))
-                    {
-                        try
-                        {
-                            PropertyItem propItem = myImage.GetPropertyItem(36867);
-                            string dateTaken = r.Replace(Encoding.UTF8.GetString(propItem.Value), "-", 2);
-                            return DateTime.Parse(dateTaken, CultureInfo.InvariantCulture);
-                        }
-                        catch (Exception)
-                        {
-                            return (DateTime)SqlDateTime.MinValue;
-                        }
-                    }
+                    PropertyItem propItem = myImage.GetPropertyItem(36867);
+                    string dateTaken = r.Replace(Encoding.UTF8.GetString(propItem.Value), "-", 2);
+                    return DateTime.Parse(dateTaken, CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {
+                    return (DateTime)SqlDateTime.MinValue;
                 }
             }
             catch (Exception)
@@ -186,35 +180,19 @@ namespace Penguin.Cms.Images
             }
             int o = int.Parse(orientation.Substring(0, 1), CultureInfo.CurrentCulture);
 
-            switch (o)
+            return o switch
             {
-                case 1:
-                    return RotateFlipType.RotateNoneFlipNone;
-
-                case 2:
-                    return RotateFlipType.RotateNoneFlipX;
-
-                case 3:
-                    return RotateFlipType.Rotate180FlipNone;
-
-                case 4:
-                    return RotateFlipType.Rotate180FlipX;
-
-                case 5:
-                    return RotateFlipType.Rotate90FlipX;
-
-                case 6:
-                    return RotateFlipType.Rotate90FlipNone;
-
-                case 7:
-                    return RotateFlipType.Rotate270FlipX;
-
-                case 8:
-                    return RotateFlipType.Rotate270FlipNone;
-
-                default:
-                    return RotateFlipType.RotateNoneFlipNone;
+                1 => RotateFlipType.RotateNoneFlipNone,
+                2 => RotateFlipType.RotateNoneFlipX,
+                3 => RotateFlipType.Rotate180FlipNone,
+                4 => RotateFlipType.Rotate180FlipX,
+                5 => RotateFlipType.Rotate90FlipX,
+                6 => RotateFlipType.Rotate90FlipNone,
+                7 => RotateFlipType.Rotate270FlipX,
+                8 => RotateFlipType.Rotate270FlipNone,
+                _ => RotateFlipType.RotateNoneFlipNone,
             };
+            ;
         }
     }
 }
